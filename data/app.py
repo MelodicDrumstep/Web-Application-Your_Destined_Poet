@@ -1,5 +1,4 @@
-# app.py
-from flask import Flask, request, render_template_string
+from flask import Flask, request, render_template_string, render_template
 from backend import calculate_score, get_poet
 
 app = Flask(__name__)
@@ -7,59 +6,56 @@ app = Flask(__name__)
 # Flask路由处理
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    return render_template('index.html')
+
+# 用于处理测试页面的路由
+@app.route('/test', methods=['POST'])
+def test():
     if request.method == 'POST':
-        # 从表单获取数据
+        # 处理表单提交的数据
         name = request.form.get('name')
-        gender = request.form.get('gender')  # 此例中未使用
+        gender = request.form.get('gender')
         dynasty = request.form.get('dynasty')
-        birth_date = request.form.get('birth_date').split()
+        birth_date = request.form.get('birth_date')
         if(len(birth_date) == 3):
-            year = (birth_date[0])
-            month = (birth_date[1])
-            day = (birth_date[2])
-        elif (len(birth_date) == 2):
-            year = (birth_date[0])
-            month = (birth_date[1])
-            day = 'None'
+            year = birth_date[0]
+            month = birth_date[1]
+            day = birth_date[2]
+        elif(len(birth_date) == 2):
+            year = birth_date[0]
+            month = birth_date[1]
+            day = None
+        elif(len(birth_date) == 1):
+            year = birth_date[0]
+            month = None
+            day = None
         else:
-            year = (birth_date[0])
-            month = 'None'
-            day = 'None'
+            year = None
+            month = None
+            day = None
         province = request.form.get('province')
         season = request.form.get('season')
         romantic = request.form.get('romantic')
+
         
-        # 调用主要逻辑
-        results = get_poet(name, dynasty, year, month, day, province, season, romantic)
-    
+
+        # 调用后端逻辑
+        results, name, rank = get_poet(name, dynasty, year, month, day, province, season, romantic)
+
         # 在渲染模板之前转义或删除HTML标签
         results = results.replace("<strong>", "").replace("</strong>", "")
         results = results.replace("<br>", "\n")
-
-        return render_template_string('''
-    <html>
-        <body>
-            <div style="white-space: pre-wrap;">{{ results }}</div>
-        </body>
-    </html>
-    ''', results=results)
         
-    # 显示输入表单
-    return render_template_string('''<html>
-        <body>
-            <h2>输入信息</h2>
-            <form method="post">
-                名字: <input type="text" name="name"><br>
-                性别: <input type="text" name="gender"><br>
-                喜欢的朝代: <input type="text" name="dynasty"><br>
-                出生日期 (年/月/日): <input type="text" name="birth_date"><br>
-                省份: <input type="text" name="province"><br>
-                喜欢的季节: <input type="text" name="season"><br>
-                喜欢的文学流派: <input type="text" name="romantic"><br>
-                <input type="submit" value="提交">
-            </form>
-        </body>
-    </html>''')
+        # rank_class = ""
+        # if rank == "稀有":
+        #     rank_class = "rank-blue"
+        # elif rank == "史诗":
+        #     rank_class = "rank-purple"
+        # else:
+        #     rank_class = "rank-gold"
+
+        # 渲染结果并返回
+        return render_template('result.html', results=results, name=name, rank = rank)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug = False)
