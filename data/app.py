@@ -20,7 +20,7 @@ sys.path.append(poet_folder_path)
 from sequential_generate import generate_with_start_str
 
 
-#from poet_generate import generate_poem_with_tile_and_poet
+from poet_generate import generate_poem_with_tile_and_poet
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'  # 设置会话密钥
@@ -63,10 +63,7 @@ def compute_game():
     if request.method == 'POST':
         name = session.get('name', '')  # 从会话中获取名字数据
         title = request.form.get('title')
-        # result = generate_poem_with_tile_and_poet(title, name)
-        result = []
-        result.append("111")
-        result.append("222")
+        result = generate_poem_with_tile_and_poet(title, name)
         return render_template('task3rd_result.html', result = result)
 
 # 用于处理测试页面的路由
