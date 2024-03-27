@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查询结果</title>
+    <style>
+        .rank-color-0 { color: blue; } /* 蓝色 */
+        .rank-color-1 { color: purple; } /* 紫色 */
+        .rank-color-2 { color: gold; } /* 金色 */
+
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 100px;
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2em;
+            color: #555;
+        }
+        
+        .name {
+            font-size: 6em;
+            color: #1e1b1e; 
+            margin-bottom: 20px;
+            font-family: "Arial Black", Arial, sans-serif; /* 艺术字体 */
+            text-shadow: 4px 4px 6px #666; /* 灰色阴影 */
+            font-weight: bold; /* 加粗 */
+        }
+
+
+        .rank {
+            position: absolute;
+            top: 30px;
+            right: 100px;
+            font-size: 2em;
+            font-weight: bold; /* 加粗 */
+        }
+
+
+        .result-container {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            text-align: left;
+            font-size: 1.5em;
+            color: black; 
+        }
+
+        .result {
+            margin-top: 50px;
+            font-family: "Arial Black", Arial, sans-serif; /* 或者其他艺术字体 */
+            font-weight: bold; /* 加粗 */
+        }
+
+        @keyframes flashEffect {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .transition-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            animation: transitionEffect 3s ease-in-out forwards;
+            z-index: 2;
+        }
+
+        @keyframes transitionEffect {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(2);
+            }
+        }
+
+        .improvise-poem-btn-container {
+            position: fixed;
+            bottom: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .improvise-poem-btn {
+            background-color: #007bf0;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .improvise-poem-btn:hover {
+            background-color: #0056b3;
+        }
+        
+
+        /* 新添加的样式 */
+        .back-btn-container {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .back-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>诗人转世鉴定</h2>
+        <h1>查询结果</h1>
+        <div class="name">
+            <!-- 这里显示用户输入的名字 -->
+            {{ name }}
+        </div>
+        <div class="rank">
+            <!-- 这里显示rank值 -->
+            {{ rank }}
+        </div>
+        <div class="result-container">
+            <div class="result">
+                <!-- 这里放查询结果 -->
+                {{ results }}
+            </div>
+        </div>
+        <div class="transition-effect"></div>
+    </div>
+
+    <script>
+        localStorage.setItem("name", "{{ name }}");
+    </script>
+
+    <!-- 即兴作诗按钮 -->
+    <div class="improvise-poem-btn-container">
+        <button class="improvise-poem-btn" onclick="navigateToGamePage()">即兴作诗一首</button>
+    </div>
+
+
+    <!-- 返回按钮 -->
+    <div class="back-btn-container">
+        <button class="back-btn" onclick="goBack()">返回主页面</button>
+    </div>
+
+    <script>
+        // 添加转场特效
+        document.addEventListener('DOMContentLoaded', function() {
+            const rankElement = document.querySelector('.rank');
+            const rank = rankElement.textContent.trim(); // 获取rank值
+            switch(rank) {
+                case '稀有':
+                    rankElement.classList.add('rank-color-0');
+                    break;
+                case '史诗':
+                    rankElement.classList.add('rank-color-1');
+                    break;
+                default:
+                    rankElement.classList.add('rank-color-2');
+                    break;
+                // 可以根据需要添加更多的case
+            }
+            const transitionEffect = document.querySelector('.transition-effect');
+            setTimeout(() => {
+                transitionEffect.style.display = 'none';
+            }, 3000); // 设置转场特效持续时间为3秒
+        });
+
+        // JavaScript function to go back to the previous page
+        function goBack() {
+            window.history.go(-2);
+        }
+        function navigateToGamePage() {
+            window.location.href = "/poet/result/game";  // 相对路径跳转到 /game 网页
+        }
+    </script>
+</body>
+</html>

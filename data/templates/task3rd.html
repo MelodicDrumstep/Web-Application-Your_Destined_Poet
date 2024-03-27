@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>查询结果</title>
+    <title>作诗一首</title>
     <style>
         .rank-color-0 { color: blue; } /* 蓝色 */
         .rank-color-1 { color: purple; } /* 紫色 */
@@ -107,12 +107,72 @@
                 transform: scale(2);
             }
         }
+
+        /* 新添加的样式 */
+        .back-btn-container {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .back-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .input-container {
+            margin-top: 20px;
+            bottom: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .input-container label {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .input-container input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+
+        .input-container input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .input-container input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>诗人转世鉴定</h2>
-        <h1>查询结果</h1>
+        <h2>即兴作诗一首</h2>
         <div class="name">
             <!-- 这里显示用户输入的名字 -->
             {{ name }}
@@ -121,13 +181,25 @@
             <!-- 这里显示rank值 -->
             {{ rank }}
         </div>
-        <div class="result-container">
-            <div class="result">
-                <!-- 这里放查询结果 -->
-                {{ results }}
-            </div>
+        <!-- 表单 -->
+        <div class="input-container">
+            <form action="/poet/result/game/result" method="POST">
+                <label for="title">为你的诗拟一个标题：</label><br>
+                <input type="text" id="title" name="title"><br>
+                <input type="submit" value="提交">
+            </form>
         </div>
+        <!-- 表单结束 -->
         <div class="transition-effect"></div>
+    </div>
+
+    <script>
+        localStorage.setItem("name", "{{ name }}");
+    </script>
+
+    <!-- 返回按钮 -->
+    <div class="back-btn-container">
+        <button class="back-btn" onclick="goBack()">返回主页面</button>
     </div>
 
     <script>
@@ -152,6 +224,11 @@
                 transitionEffect.style.display = 'none';
             }, 3000); // 设置转场特效持续时间为3秒
         });
+
+        // JavaScript function to go back to the previous page
+        function goBack() {
+            window.history.go(-3);
+        }
     </script>
 </body>
 </html>

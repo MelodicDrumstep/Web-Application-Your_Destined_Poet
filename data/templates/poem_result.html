@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>诗词展示</title>
+    <style>
+        /* Your existing styles */
+        /* ... */
+
+        .result-container {
+            height: 20%;
+            text-align: center; /* Center text horizontally */
+            width: 100%; /* Set to the width you prefer */
+            font-size: larger;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 50vh;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .result {
+            display: inline-block;
+            text-align: center; /* Center text inside the block */
+            /* Remove the absolute positioning and transformation from .result-container if it's not needed */
+        }
+
+        .poem-line {
+            margin-top: 30px; /* Increase the margin-top for more space */
+            font-size: 1.6em; /* Increase the font size */
+            color: #333; /* Adjust text color as necessary */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* A subtle text shadow for elegance */
+            animation: fadeIn 2s ease-in-out forwards; /* Fade-in animation */
+        }
+
+        .h1 {
+            height : 20px;
+            font-size: 2em; /* Adjust the font size as necessary */
+            color: #333; /* Adjust text color as necessary */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* A subtle text shadow for elegance */
+        }
+
+        /* Add keyframes for the fadeIn effect */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 新添加的样式 */
+        .back-btn-container {
+            position: absolute; /* Fix the button position */
+            bottom: 40px; /* Adjust the distance from the bottom */
+            left: 50%; /* Center the button horizontally */
+            transform: translateX(-50%); /* Center the button horizontally */
+            text-align: center; /* Center the button horizontally */
+        }
+
+        .back-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>您的诗句来啦</h1>
+        <div class="result-container">
+            <!-- Loop through each line of poetry -->
+            <div class="poem-line">{{ line1 }}</div> <!-- Replace {{ line1 }} with the actual line -->
+            <div class="poem-line">{{ line2 }}</div> <!-- Replace with your data -->
+            <div class="poem-line">{{ line3 }}</div>
+            <div class="poem-line">{{ line4 }}</div>
+            <div class="poem-line">{{ line5 }}</div>
+            <div class="poem-line">{{ line6 }}</div>
+            <!-- Add more <div> elements for more lines -->
+        </div>
+    </div>
+
+    <!-- 返回按钮 -->
+    <div class="back-btn-container">
+        <button class="back-btn" onclick="goBack()">返回主页面</button>
+    </div>
+
+    <!-- Your existing scripts -->
+    <!-- ... -->
+    <script>
+        // JavaScript function to go back to the previous page
+        function goBack() {
+            window.history.go(-2);
+        }
+    </script>
+</body>
+</html>

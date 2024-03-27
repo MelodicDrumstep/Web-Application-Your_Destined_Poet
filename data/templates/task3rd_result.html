@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>您写的诗来啦</title>
+    <style>
+        /* 其他样式省略 */
+
+        /* 添加的样式 */
+        .poem-container {
+            margin-top: 20px;
+            text-align: center;
+            font-family: "Arial Black", Arial, sans-serif; /* 或者其他艺术字体 */
+            font-weight: bold; /* 加粗 */
+            font-size: 1.5em;
+            color: #333; /* 文字颜色 */
+        }
+
+        .poem-text {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #ccc; /* 边框样式 */
+            border-radius: 10px; /* 边框圆角 */
+            font-size: 1.2em;
+            min-height: 200px; /* 最小高度 */
+            overflow: auto; /* 滚动条 */
+            background-color: #f9f9f9; /* 背景颜色 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+        }
+
+        .back-btn-container {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .back-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <div class="result">
+            <!-- 这里放查询结果 -->
+            <div class="poem-container">
+                您的大作：
+                <div class="poem-text">
+                    {% for line in result %}
+                        {{ line }}<br>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="back-btn-container">
+        <button class="back-btn" onclick="goBack()">返回主页面</button>
+    </div>
+
+    <script>
+         // JavaScript function to go back to the previous page
+         function goBack() {
+            window.history.go(-4);
+        }
+    </script>
+</body>
+</html>
